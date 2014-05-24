@@ -75,7 +75,8 @@ Start a new order. This action requries an authorized user. The response the ful
                     "address": "Karlstrasse 123",
                     "postcode": "67676",
                     "city": "Karlsruhe"
-                }
+                },
+                "comment": "Sliced please."
             }
 
 + Response 201 (application/json)
@@ -140,6 +141,7 @@ Single order object which includes basic informations about a order. Detail info
                         "quantity": 3
                     }
                 ],
+                "comment": "Not too much olive oil.",
                 "price": 12.88
             }]
 
@@ -150,7 +152,9 @@ Single order object which includes basic informations about a order. Detail info
 
 ### Add item to order for nickname [POST]
 
-If the nickname is already taken than the API will return status code ``409 CONFLICT``. The user must use another nickname.
+If the nickname for this order is already taken than the API will return status code ``409 CONFLICT``. The user must use another nickname.
+
+``note`` can be empty.
 
 + Request
 
@@ -160,7 +164,8 @@ If the nickname is already taken than the API will return status code ``409 CONF
                     "id": 123,
                     "quantity": 3
                 }
-            ]
+            ],
+            "comment": "Not too much olive oil."
         }
 
 + Response 201
@@ -172,7 +177,8 @@ If the nickname is already taken than the API will return status code ``409 CONF
                     "name": "Pizza Diablo",
                     "quantity": 3
                 }
-            ]
+            ],
+            "comment": "Not too much olive oil."
             "price": 12.88
         }
 
