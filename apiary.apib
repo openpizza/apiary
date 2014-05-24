@@ -46,12 +46,14 @@ A single Shop object with all its details
                 {
                     "id": 1,
                     "name": "Pizza Diablo",
-                    "category": "Pizza"
+                    "category": "Pizza",
+                    "price": 8.45
                 },
                 {
                     "id": 2,
                     "name": "Pasta Bolognese",
-                    "category": "Pasta"
+                    "category": "Pasta",
+                    "price": 5.10
                 }
             ]
         }
@@ -93,10 +95,12 @@ Start a new order. This action requries an authorized user. The response the ful
             }
 
 ## Order [/orders/{id}]
-A single order object.
+Single order object which includes basic informations about a order. Detail informations about ordered products can you find under ``/orders/{id}/items``.
 
-- ``shop`` Id of shop
-- ``host`` User id which starts the order
+- ``short_link`` Link to page which opens the app or allows to add itmes to order via web app.
+- ``shop`` Shop id.
+- ``host`` Name of user which hosts and manages this order.
+- ``estimated_participants`` How many people will be order something?
 
 + Parameters
     + id (required, uuid4, `62936e70-1815-439b-bf89-8492855a7e6b`) ... Unique id for a order. 
@@ -109,8 +113,8 @@ A single order object.
                 "id": "2d931510-d99f-494a-8c67-87feb05e1594",
                 "short_link": "http://open-pizza.de/2d931510-d99f-494a-8c67-87feb05e1594",
                 "host": "Paul Power",
-                "estimated_participants": 6,
                 "shop": 1,
+                "estimated_participants": 6,
                 "delivery_address": {
                     "name": "Max Pizzahunger",
                     "address": "Karlstrasse 123",
