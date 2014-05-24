@@ -1,0 +1,181 @@
+FORMAT: 1A
+HOST: http://openpizza.herokuapp.com/
+
+# OpenPizza
+OpenPizza is a service which allows to order pizzas and other meals from your favorite home delivery service via open API.
+
+# Group Shops
+
+## Shop Collection [/shops{?postcode}]
+### List all Shops [GET]
+
++ Parameters
+    + postcode (optional, string) ... Search for shops with postcode
+
++ Response 200 (application/json)
+
+        [{
+            "id": 1,
+            "name": "Christophs Pizza",
+            "address": "Karlstrasse 123",
+            "postcode": "67676",
+            "city": "Karlsruhe"
+        }]
+
+## Shop [/shops/{id}]
+A single Shop object with all its details
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with.
+
+### Retrieve a Shop [GET]
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "name": "Christophs Pizza",
+            "address": "Karlstrasse 123",
+            "postcode": "67676",
+            "city": "Karlsruhe",
+            "product_categories": [
+                "Pizza",
+                "Pasta"
+            ]
+            "products": [
+                {
+                    "id": 1,
+                    "name": "Pizza Diablo",
+                    "category": "Pizza"
+                },
+                {
+                    "id": 2,
+                    "name": "Pasta Bolognese",
+                    "category": "Pasta"
+                }
+            ]
+        }
+
+# Group Orders
+
+## Order Collection [/orders/]
+
+### Create a order [POST]
+Start a new order. This action requries an authorized user. The response the full order.
+
++ Request (application/json)
+
+        {
+            "estimated_participants": 6,
+            "shop": 1,
+            "host": 1,
+            "delivery_address": {
+                "name": "Max Pizzahunger",
+                "address": "Karlstrasse 123",
+                "postcode": "67676",
+                "city": "Karlsruhe"
+            }
+        }
+
++ Response 201 (application/json)
+
+            {
+                "id": "2d931510-d99f-494a-8c67-87feb05e1594",
+                "short_link": "http://open-pizza.de/2d931510-d99f-494a-8c67-87feb05e1594",
+                "estimated_participants": 6,
+                "shop": 1,
+                "delivery_address": {
+                    "name": "Max Pizzahunger",
+                    "address": "Karlstrasse 123",
+                    "postcode": "67676",
+                    "city": "Karlsruhe"
+                }
+            }
+
+## Order [/orders/{id}]
+A single order object.
+
+- ``shop`` Id of shop
+- ``host`` User id which starts the order
+
++ Parameters
+    + id (required, uuid4, `62936e70-1815-439b-bf89-8492855a7e6b`) ... Unique id for a order. 
+    
+### Get active order [GET]
+
++ Response 200
+    
+            {
+                "id": "2d931510-d99f-494a-8c67-87feb05e1594",
+                "short_link": "http://open-pizza.de/2d931510-d99f-494a-8c67-87feb05e1594",
+                "estimated_participants": 6,
+                "shop": 1,
+                "delivery_address": {
+                    "name": "Max Pizzahunger",
+                    "address": "Karlstrasse 123",
+                    "postcode": "67676",
+                    "city": "Karlsruhe"
+                }
+            }
+
+## Order Content [/orders/{id}/items]
+
+### Get all current items of order [GET]
+
++ Response 200
+    
+    + body
+    
+            [{
+                "nickname": "frederic",
+                "products": [
+                    {
+                        "id": 123,
+                        "name": "Pizza Diablo",
+                        "quantity": 3
+                    }
+                ],
+                "price": 12.88
+            }]
+
+### Add nickname to order [POST]
+
+Before you can add items to a order you must register a per order unique nickname to the order.
+With the nickname the order host can identify the person which ordered a product.
+
++ Request
+
+            {
+                nickname: "frederic"
+            }
+
++ Response 201
+
+            {
+                "nickname": "frederic",
+                "products": []
+            }
+
+## Order Content for nickname [/orders/{id}/items/{nickname}]
+
+### Add item to order for nickname [PUT]
+
++ Request
+
+        {
+            "product": 1,
+            "quantity": 2
+        }
+
++ Response 200
+
+        {
+            "products": [
+                {
+                    "id": 123,
+                    "name": "Pizza Diablo",
+                    "quantity": 3
+                }
+            ]
+            "price": 12.88
+        }
