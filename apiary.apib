@@ -65,23 +65,23 @@ Start a new order. This action requries an authorized user. The response the ful
 
 + Request (application/json)
 
-        {
-            "estimated_participants": 6,
-            "shop": 1,
-            "host": 1,
-            "delivery_address": {
-                "name": "Max Pizzahunger",
-                "address": "Karlstrasse 123",
-                "postcode": "67676",
-                "city": "Karlsruhe"
+            {
+                "estimated_participants": 6,
+                "shop": 1,
+                "delivery_address": {
+                    "name": "Max Pizzahunger",
+                    "address": "Karlstrasse 123",
+                    "postcode": "67676",
+                    "city": "Karlsruhe"
+                }
             }
-        }
 
 + Response 201 (application/json)
 
             {
                 "id": "2d931510-d99f-494a-8c67-87feb05e1594",
                 "short_link": "http://open-pizza.de/2d931510-d99f-494a-8c67-87feb05e1594",
+                "host": "Paul Power",
                 "estimated_participants": 6,
                 "shop": 1,
                 "delivery_address": {
@@ -108,6 +108,7 @@ A single order object.
             {
                 "id": "2d931510-d99f-494a-8c67-87feb05e1594",
                 "short_link": "http://open-pizza.de/2d931510-d99f-494a-8c67-87feb05e1594",
+                "host": "Paul Power",
                 "estimated_participants": 6,
                 "shop": 1,
                 "delivery_address": {
@@ -138,36 +139,22 @@ A single order object.
                 "price": 12.88
             }]
 
-### Add nickname to order [POST]
-
-Before you can add items to a order you must register a per order unique nickname to the order.
-With the nickname the order host can identify the person which ordered a product.
-
-+ Request
-
-            {
-                nickname: "frederic"
-            }
-
-+ Response 201
-
-            {
-                "nickname": "frederic",
-                "products": []
-            }
-
 ## Order Content for nickname [/orders/{id}/items/{nickname}]
 
-### Add item to order for nickname [PUT]
+### Add item to order for nickname [POST]
 
 + Request
 
         {
-            "product": 1,
-            "quantity": 2
+            "products": [
+                {
+                    "id": 123,
+                    "quantity": 3
+                }
+            ]
         }
 
-+ Response 200
++ Response 201
 
         {
             "products": [
