@@ -143,9 +143,10 @@ A single order object.
 
 + Parameters
     + nickname (required, string, `frederic`) ... Unique nickname per order. 
-    
 
 ### Add item to order for nickname [POST]
+
+If the nickname is already taken than the API will return status code ``409 CONFLICT``. The user must use another nickname.
 
 + Request
 
